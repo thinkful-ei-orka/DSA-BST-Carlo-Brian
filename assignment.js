@@ -1,4 +1,5 @@
-const BST = require('./BST')
+const BST = require('./BST');
+const BinarySearchTree = require('./BST');
 
 // Question 4
 // Sum of tree
@@ -30,6 +31,13 @@ function main() {
     // console.log(newTree)
 
     console.log(findHeight(newTree));
+    console.log(verifyBST(newTree));
+    console.log('----------------');
+    //console.log(thirdLargest(newTree, []));
+
+    console.log(thirdLargest(newTree, newTree.key));
+
+    // console.log(createBalanced([1, 3, 5, 7, 9, 11]));
 }
 
 function findHeight(tree) {
@@ -46,5 +54,98 @@ function findHeight(tree) {
         return rightDepth + 1;
     }
 }
+
+// props of BST
+// left node < node
+// right node > node
+
+function verifyBST(tree) {
+    if(!tree) {
+        return;
+    }
+
+    if(tree.left && tree.left.key > tree.key) {
+        return false;
+    }
+
+    if(tree.right && tree.right.key < tree.key) {
+        return false;
+    }
+
+    verifyBST(tree.left);
+    verifyBST(tree.right);
+
+    return true;
+}
+
+// function thirdLargest(tree, store) {
+//     if(!tree) {
+//         return;
+//     }
+
+//     thirdLargest(tree.right, store);
+
+//     store.push(tree.key);
+
+//     thirdLargest(tree.left, store);
+
+//     return store[2];
+// }
+
+function thirdLargest(tree, max, mid, min) {
+    if(!tree) {
+        return;
+    }
+
+    
+
+    thirdLargest(tree.right, store);
+
+    store.push(tree.key);
+
+    thirdLargest(tree.left, store);
+
+    return store[2];
+}
+
+function createBalanced(arr) {
+    if(!arr.length) {
+        return null;
+    }
+
+    const middleIndex = Math.floor(arr.length / 2);
+    const middleValue = arr[middleIndex];
+    const node = new BinarySearchTree(middleValue);
+
+    const left = arr.slice(0, middleIndex);
+    const right = arr.slice(middleIndex + 1);
+
+    const leftSub = createBalanced(left);
+    const rightSub = createBalanced(right);
+
+    node.left = leftSub;
+    node.right = rightSub;
+
+    return node;
+}
+
+// // Better performance
+// function createBalanced(arr, start=0, end=arr.length-1) {
+//     if(start > end) {
+//         return null;
+//     }
+
+//     const middleIndex = Math.floor(end + start / 2);
+//     const middleValue = arr[middleIndex];
+//     const node = new BinarySearchTree(middleValue);
+
+//     const leftSub = createBalanced(arr, start, middleIndex-1);
+//     const rightSub = createBalanced(arr, middleIndex+1, end);
+
+//     node.left = leftSub;
+//     node.right = rightSub;
+
+//     return node;
+// }
 
 main()
