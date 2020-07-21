@@ -31,12 +31,13 @@ function main() {
     // console.log(newTree)
 
     console.log(findHeight(newTree));
-    console.log(verifyBST(newTree));
-    console.log('----------------');
+    // console.log(verifyBST(newTree));
+    // console.log('----------------');
     //console.log(thirdLargest(newTree, []));
 
-    console.log(thirdLargest(newTree, newTree.key));
-
+    // console.log(thirdLargest(newTree, newTree.key));
+    console.log(findShort(newTree));
+    console.log(balanced(newTree));
     // console.log(createBalanced([1, 3, 5, 7, 9, 11]));
 }
 
@@ -55,9 +56,20 @@ function findHeight(tree) {
     }
 }
 
-// props of BST
-// left node < node
-// right node > node
+function findShort(tree) {
+    if (!tree) {
+        return 0;
+    }
+
+    let leftDepth = findHeight(tree.left);
+    let rightDepth = findHeight(tree.right);
+
+    if (leftDepth < rightDepth) {
+        return leftDepth + 1;
+    } else {
+        return rightDepth + 1;
+    }
+}
 
 function verifyBST(tree) {
     if(!tree) {
@@ -78,26 +90,10 @@ function verifyBST(tree) {
     return true;
 }
 
-// function thirdLargest(tree, store) {
-//     if(!tree) {
-//         return;
-//     }
-
-//     thirdLargest(tree.right, store);
-
-//     store.push(tree.key);
-
-//     thirdLargest(tree.left, store);
-
-//     return store[2];
-// }
-
-function thirdLargest(tree, max, mid, min) {
+function thirdLargest(tree, store) {
     if(!tree) {
         return;
     }
-
-    
 
     thirdLargest(tree.right, store);
 
@@ -106,6 +102,24 @@ function thirdLargest(tree, max, mid, min) {
     thirdLargest(tree.left, store);
 
     return store[2];
+}
+
+
+
+function balanced(tree){
+    if (!tree) {
+        return 0;
+    }
+
+    const highSide = findHeight(tree);
+    const lowSide = findShort(tree);
+
+    if (highSide - lowSide > 1 ) {
+        return false
+    } else {
+        return true
+    }
+    
 }
 
 function createBalanced(arr) {
