@@ -33,11 +33,13 @@ function main() {
     console.log(findHeight(newTree));
     console.log(verifyBST(newTree));
     console.log('----------------');
-    //console.log(thirdLargest(newTree, []));
+    console.log(thirdLargest(newTree, []));
 
-    console.log(thirdLargest(newTree, newTree.key));
+
 
     // console.log(createBalanced([1, 3, 5, 7, 9, 11]));
+
+    console.log(isEqual([3, 5, 4, 6, 1, 0, 2], [3, 1, 5, 2, 4, 6, 0]))
 }
 
 function findHeight(tree) {
@@ -60,15 +62,15 @@ function findHeight(tree) {
 // right node > node
 
 function verifyBST(tree) {
-    if(!tree) {
+    if (!tree) {
         return;
     }
 
-    if(tree.left && tree.left.key > tree.key) {
+    if (tree.left && tree.left.key > tree.key) {
         return false;
     }
 
-    if(tree.right && tree.right.key < tree.key) {
+    if (tree.right && tree.right.key < tree.key) {
         return false;
     }
 
@@ -78,26 +80,10 @@ function verifyBST(tree) {
     return true;
 }
 
-// function thirdLargest(tree, store) {
-//     if(!tree) {
-//         return;
-//     }
-
-//     thirdLargest(tree.right, store);
-
-//     store.push(tree.key);
-
-//     thirdLargest(tree.left, store);
-
-//     return store[2];
-// }
-
-function thirdLargest(tree, max, mid, min) {
-    if(!tree) {
+function thirdLargest(tree, store) {
+    if (!tree) {
         return;
     }
-
-    
 
     thirdLargest(tree.right, store);
 
@@ -108,8 +94,79 @@ function thirdLargest(tree, max, mid, min) {
     return store[2];
 }
 
+function isBalanced(tree) {
+    if (!tree) {
+        return;
+    }
+
+}
+
+function isEqual(arr1, arr2) {
+    if (arr1[0] !== arr2[0] || arr1.length !== arr2.length) {
+        return false;
+    }
+
+    let root = arr1[0];
+    let nextLowestOne;
+    let nextHighestOne;
+    let nextLowestTwo;
+    let nextHighestTwo;
+    let i = 1;
+
+    // iterate through first array
+    // find index of number in second array (indexOf)
+    // use find in a slice from current index to end (of both)
+    // use find to check next lowest and next highest
+    // compare
+    // splice out nextLowest and nextHighest from each array
+    // i++
+
+    while(arr1.length > 2) {
+        let tempRoot = arr1[i];
+        let indexTwo = arr2.indexOf(tempRoot);
+
+        if (tempRoot > root) {
+            nextLowestOne = arr1.slice(i).find(num => num < tempRoot && num > root);
+            nextHighestOne = arr1.slice(i).find(num => num > tempRoot);
+
+            nextLowestTwo = arr2.slice(indexTwo).find(num => num < tempRoot && num > root);
+            nextHighestTwo = arr2.slice(indexTwo).find(num => num > tempRoot);
+        } else if (tempRoot < root) {
+            nextLowestOne = arr1.slice(i).find(num => num < tempRoot);
+            nextHighestOne = arr1.slice(i).find(num => num > tempRoot && num < root);
+
+            nextLowestTwo = arr2.slice(indexTwo).find(num => num < tempRoot);
+            nextHighestTwo = arr2.slice(indexTwo).find(num => num > tempRoot && num < root);
+        }
+        // find next number > root, find next number < root
+
+        console.log('arr1 :', arr1);
+        console.log('arr2 :', arr2);        
+        console.log('current num :', arr1[i]);
+        console.log('next lowest 1: ', nextLowestOne);
+        console.log('next lowest 2: ', nextLowestTwo);
+        console.log('next highest 1: ', nextHighestOne);
+        console.log('next highest 2: ', nextHighestTwo);
+        console.log('-------------------');
+
+        if (nextLowestOne !== nextLowestTwo || nextHighestOne !== nextHighestTwo) {
+            return false;
+        }
+
+        arr1.splice(arr1.indexOf(tempRoot), 1);
+        arr1.splice(arr1.indexOf(nextLowestOne), 1);
+        arr1.splice(arr1.indexOf(nextHighestOne), 1);
+
+        arr2.splice(arr2.indexOf(tempRoot), 1);
+        arr2.splice(arr2.indexOf(nextLowestTwo), 1);
+        arr2.splice(arr2.indexOf(nextHighestTwo), 1);
+    }
+
+    return true;
+}
+
 function createBalanced(arr) {
-    if(!arr.length) {
+    if (!arr.length) {
         return null;
     }
 
